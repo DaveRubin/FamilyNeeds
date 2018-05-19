@@ -6,10 +6,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import survery  from './fixture';
 
 import H1 from 'components/H1';
 import messages from './messages';
+import Survey from './Containers/Sruvey';
 
 export default class SurveyPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -29,7 +29,7 @@ export default class SurveyPage extends React.Component { // eslint-disable-line
         <H1>
           <FormattedMessage {...messages.header} />
         </H1>
-        <span>{survery.test} </span>
+        <Survey />
       </div>
     );
   }
