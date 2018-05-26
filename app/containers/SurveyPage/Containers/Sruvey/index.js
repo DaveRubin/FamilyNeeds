@@ -5,9 +5,8 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import { changeStep } from './actions';
 import reducer from './reducer';
-import { Button } from './styles';
 import SurveyStep from './Containers/SurveyStep';
-
+import SurveyNavigation from './Containers/SurveyNavigation';
 
 class SurveyPage extends React.Component {
   constructor(props) {
@@ -23,6 +22,7 @@ class SurveyPage extends React.Component {
   }
 
   nextStep() {
+    console.log('NEXT');
     const nextSetp = Math.min(this.props.steps.length - 1, this.props.currentStep + 1);
     this.props.onStepChange(nextSetp);
   }
@@ -32,13 +32,35 @@ class SurveyPage extends React.Component {
     this.props.onStepChange(nextSetp);
   }
 
+  isCurrentStepIsDone() {
+    const questions = this.getCurrentStep().questions;
+    const answers = this.props.answers;
+    let areAllAnswered = true;
+    console.log(answers);
+    questions.forEach((question) => {
+      if (answers[question.id] === undefined) areAllAnswered = false;
+    });
+    return areAllAnswered;
+  }
+
+  renderNavigation() {
+    const { currentStep, steps } = this.props;
+    const allowPrev = currentStep > 0;
+    const isLastStep = steps.length - 1 === currentStep;
+    const allowNext = !isLastStep && this.isCurrentStepIsDone();
+    return (<SurveyNavigation
+      allowPrev={allowPrev}
+      allowNext={allowNext}
+      onNext={this.nextStep}
+      onPrev={this.prevStep}
+    />);
+  }
 
   render() {
     return (
       <div>
         <SurveyStep step={this.getCurrentStep()} />
-        <Button onClick={this.prevStep}>prev</Button>
-        <Button onClick={this.nextStep}>next</Button>
+        {this.renderNavigation()}
       </div>
     );
   }
@@ -48,6 +70,7 @@ class SurveyPage extends React.Component {
 SurveyPage.propTypes = {
   steps: PropTypes.array,
   currentStep: PropTypes.number,
+  answers: PropTypes.object,
   onStepChange: PropTypes.func,
 };
 
@@ -59,10 +82,13 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = (state) => {
-  const surveyState = state.get('survey');
+  const surveyStep = state.get('survey');
+  const answers = state.getIn(['surveyAnswers', 'answers']) ? state.getIn(['surveyAnswers', 'answers']).toJS()
+  : {};
   return {
-    steps: surveyState.get('steps').toJS(),
-    currentStep: surveyState.get('currentStep'),
+    steps: surveyStep.get('steps').toJS(),
+    currentStep: surveyStep.get('currentStep'),
+    answers,
   };
 };
 

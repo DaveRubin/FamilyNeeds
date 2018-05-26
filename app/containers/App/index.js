@@ -13,7 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import SurveyPage from 'containers/SurveyPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'components/Header';
+// import Header from 'components/Header';
 import Footer from 'components/Footer';
 
 const AppWrapper = styled.div`
@@ -34,7 +34,6 @@ export default function App() {
       >
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
-      <Header />
       <Switch>
         <Route exact path="/" component={SurveyPage} />
         <Route path="" component={NotFoundPage} />

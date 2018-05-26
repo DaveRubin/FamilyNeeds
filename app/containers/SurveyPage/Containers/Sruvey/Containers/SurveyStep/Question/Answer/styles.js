@@ -3,10 +3,9 @@ import glamorous from 'glamorous';
 export const AnswerContainer = glamorous.div(
   { cursor: 'pointer' },
     ({ selected = false }) => (selected ? {
-      color: 'white',
-      backgroundColor: 'red',
+      backgroundColor: 'lightGrey',
       ':hover': {
-        backgroundColor: 'darkred',
+        backgroundColor: 'grey',
       } }
       :
     {

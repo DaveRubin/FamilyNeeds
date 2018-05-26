@@ -18,14 +18,13 @@ const initialState = fromJS({
   currentStep: 0,
 });
 
-function setStepReducer(state = initialState, action) {
+function reducer(state = initialState, action) {
   switch (action.type) {
     case 'CHANGE_STEP':
-      console.log('ZZZ');
       return state.set('currentStep', action.step);
     default:
       return state;
   }
 }
 
-export default setStepReducer;
+export default reducer;
