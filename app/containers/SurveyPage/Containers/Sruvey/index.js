@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createSelector, createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import { changeStep } from './actions';
 import reducer from './reducer';
+import { Button } from './styles';
+import SurveyStep from './Containers/SurveyStep';
+
 
 class SurveyPage extends React.Component {
   constructor(props) {
@@ -13,9 +15,12 @@ class SurveyPage extends React.Component {
 
     this.nextStep = this.nextStep.bind(this);
     this.prevStep = this.prevStep.bind(this);
-    this.renderCurrentStep = this.renderCurrentStep.bind(this);
+    this.getCurrentStep = this.getCurrentStep.bind(this);
   }
 
+  getCurrentStep() {
+    return this.props.steps[this.props.currentStep];
+  }
 
   nextStep() {
     const nextSetp = Math.min(this.props.steps.length - 1, this.props.currentStep + 1);
@@ -27,21 +32,13 @@ class SurveyPage extends React.Component {
     this.props.onStepChange(nextSetp);
   }
 
-  renderCurrentStep() {
-    const currentStep = this.props.steps[this.props.currentStep];
-    return (
-      <div>
-        {currentStep.description}
-      </div>
-    );
-  }
 
   render() {
     return (
       <div>
-        {this.renderCurrentStep()}
-        <button onClick={this.prevStep} >prev</button>
-        <button onClick={this.nextStep}>next</button>
+        <SurveyStep step={this.getCurrentStep()} />
+        <Button onClick={this.prevStep}>prev</Button>
+        <Button onClick={this.nextStep}>next</Button>
       </div>
     );
   }

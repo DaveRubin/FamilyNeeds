@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import H1 from 'components/H1';
 import messages from './messages';
 import Survey from './Containers/Sruvey';
+import { SurveyHeader } from './styles';
 
 export default class SurveyPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -26,9 +27,9 @@ export default class SurveyPage extends React.Component { // eslint-disable-line
           <title>Feature Page</title>
           <meta name="description" content="Feature page of React.js Boilerplate application" />
         </Helmet>
-        <H1>
+        <SurveyHeader>
           <FormattedMessage {...messages.header} />
-        </H1>
+        </SurveyHeader>
         <Survey />
       </div>
     );

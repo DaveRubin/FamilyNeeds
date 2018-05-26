@@ -21,6 +21,7 @@ const initialState = fromJS({
 function setStepReducer(state = initialState, action) {
   switch (action.type) {
     case 'CHANGE_STEP':
+      console.log('ZZZ');
       return state.set('currentStep', action.step);
     default:
       return state;
