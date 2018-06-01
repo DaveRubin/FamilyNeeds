@@ -5,11 +5,7 @@
  */
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-
-import messages from './messages';
 import Survey from './Containers/Sruvey';
-import { SurveyHeader } from './styles';
 
 export default class SurveyPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
