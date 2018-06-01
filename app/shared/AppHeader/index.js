@@ -21,24 +21,21 @@ const styles = {
   },
 };
 
-function AppHeader(props) {
-  const { classes, title } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            {title}
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
+const AppHeader = ({ classes, title }) => (
+  <div className={classes.root}>
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <MenuIcon />
+        </IconButton>
+        <Typography variant="title" color="inherit" className={classes.flex}>
+          {title}
+        </Typography>
+        <Button color="inherit">Login</Button>
+      </Toolbar>
+    </AppBar>
+  </div>
   );
-}
 
 AppHeader.propTypes = {
   classes: PropTypes.object.isRequired,

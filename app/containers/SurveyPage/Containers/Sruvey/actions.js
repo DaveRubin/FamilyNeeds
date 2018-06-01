@@ -4,3 +4,10 @@ export function changeStep(step) {
     step,
   };
 }
+
+export function submitData(answers) {
+  return {
+    type: 'SUBMIT_DATA',
+    answers,
+  };
+}

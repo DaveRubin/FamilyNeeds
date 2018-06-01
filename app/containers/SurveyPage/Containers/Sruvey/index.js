@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
-import { changeStep } from './actions';
+import { changeStep, submitData } from './actions';
 import reducer from './reducer';
 import SurveyStep from './Containers/SurveyStep';
-import SurveyNavigation from './Containers/SurveyNavigation';
+import SurveyStepper from './Containers/SurveyStepper';
 
 class SurveyPage extends React.Component {
   constructor(props) {
@@ -22,9 +22,13 @@ class SurveyPage extends React.Component {
   }
 
   nextStep() {
-    console.log('NEXT');
-    const nextSetp = Math.min(this.props.steps.length - 1, this.props.currentStep + 1);
-    this.props.onStepChange(nextSetp);
+    const { currentStep, steps, answers } = this.props;
+    const nextStep = currentStep + 1;
+    if (nextStep < steps.length) {
+      this.props.onStepChange(nextStep);
+    } else {
+      this.props.submitData(answers);
+    }
   }
 
   prevStep() {
@@ -33,35 +37,37 @@ class SurveyPage extends React.Component {
   }
 
   isCurrentStepIsDone() {
-    const questions = this.getCurrentStep().questions;
+    const { questions } = this.getCurrentStep();
     const answers = this.props.answers;
-    let areAllAnswered = true;
-    console.log(answers);
-    questions.forEach((question) => {
-      if (answers[question.id] === undefined) areAllAnswered = false;
-    });
-    return areAllAnswered;
+    return questions.every((question) => answers[question.id] !== undefined);
   }
 
-  renderNavigation() {
+  renderLoading = () => <div>loading</div>
+
+  renderStepper = () => {
     const { currentStep, steps } = this.props;
-    const allowPrev = currentStep > 0;
-    const isLastStep = steps.length - 1 === currentStep;
-    const allowNext = !isLastStep && this.isCurrentStepIsDone();
-    return (<SurveyNavigation
-      allowPrev={allowPrev}
+    const stepsDescription = steps.map((step) => step.description);
+    const allowNext = this.isCurrentStepIsDone();
+    return (<SurveyStepper
+      steps={stepsDescription}
       allowNext={allowNext}
       onNext={this.nextStep}
       onPrev={this.prevStep}
+      activeStep={currentStep}
     />);
   }
 
   render() {
+    const { currentStep, steps } = this.props;
+    const isFinished = currentStep === steps.length;
     return (
-      <div>
-        <SurveyStep step={this.getCurrentStep()} />
-        {this.renderNavigation()}
-      </div>
+      isFinished ?
+      this.renderLoading() : (
+        <div>
+          <SurveyStep step={this.getCurrentStep()} />
+          {this.renderStepper()}
+        </div>
+      )
     );
   }
 }
@@ -72,12 +78,14 @@ SurveyPage.propTypes = {
   currentStep: PropTypes.number,
   answers: PropTypes.object,
   onStepChange: PropTypes.func,
+  submitData: PropTypes.func,
 };
 
 
 export function mapDispatchToProps(dispatch) {
   return {
     onStepChange: (step) => dispatch(changeStep(step)),
+    submitData: (step) => dispatch(submitData(step)),
   };
 }
 
