@@ -13,6 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import SurveyPage from 'containers/SurveyPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import AppHeader from 'shared/AppHeader';
 // import Header from 'components/Header';
 import Footer from 'components/Footer';
 
@@ -27,18 +28,21 @@ const AppWrapper = styled.div`
 
 export default function App() {
   return (
-    <AppWrapper>
-      <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
-      >
-        <meta name="description" content="A React.js Boilerplate application" />
-      </Helmet>
-      <Switch>
-        <Route exact path="/" component={SurveyPage} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-      <Footer />
-    </AppWrapper>
+    <div>
+      <AppHeader title="FamilyNeeds" />
+      <AppWrapper>
+        <Helmet
+          titleTemplate="%s - React.js Boilerplate"
+          defaultTitle="React.js Boilerplate"
+        >
+          <meta name="description" content="A React.js Boilerplate application" />
+        </Helmet>
+        <Switch>
+          <Route exact path="/" component={SurveyPage} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+        <Footer />
+      </AppWrapper>
+    </div>
   );
 }
