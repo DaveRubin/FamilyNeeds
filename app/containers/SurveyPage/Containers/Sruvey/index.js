@@ -7,6 +7,7 @@ import { changeStep, submitData } from './actions';
 import reducer from './reducer';
 import SurveyStep from './Containers/SurveyStep';
 import SurveyStepper from './Containers/SurveyStepper';
+import SubmittingData from './Components/SubmittingData';
 
 class SurveyPage extends React.Component {
   constructor(props) {
@@ -42,7 +43,6 @@ class SurveyPage extends React.Component {
     return questions.every((question) => answers[question.id] !== undefined);
   }
 
-  renderLoading = () => <div>loading</div>
 
   renderStepper = () => {
     const { currentStep, steps } = this.props;
@@ -58,11 +58,11 @@ class SurveyPage extends React.Component {
   }
 
   render() {
-    const { currentStep, steps } = this.props;
-    const isFinished = currentStep === steps.length;
+    const { sendingData } = this.props;
     return (
-      isFinished ?
-      this.renderLoading() : (
+      sendingData ?
+        <SubmittingData /> :
+      (
         <div>
           <SurveyStep step={this.getCurrentStep()} />
           {this.renderStepper()}
@@ -76,6 +76,7 @@ class SurveyPage extends React.Component {
 SurveyPage.propTypes = {
   steps: PropTypes.array,
   currentStep: PropTypes.number,
+  sendingData: PropTypes.bool,
   answers: PropTypes.object,
   onStepChange: PropTypes.func,
   submitData: PropTypes.func,
@@ -96,6 +97,7 @@ const mapStateToProps = (state) => {
   return {
     steps: surveyStep.get('steps').toJS(),
     currentStep: surveyStep.get('currentStep'),
+    sendingData: surveyStep.get('sendingData'),
     answers,
   };
 };

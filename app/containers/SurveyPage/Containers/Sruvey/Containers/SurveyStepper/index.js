@@ -64,7 +64,6 @@ class HorizontalLinearStepper extends React.Component {
         <div>
           <Typography className={classes.instructions}>{steps[activeStep]}</Typography>
           <div>
-            {activeStep}
             <Button
               disabled={activeStep === 0}
               onClick={onPrev}

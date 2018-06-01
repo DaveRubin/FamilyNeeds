@@ -26,9 +26,6 @@ export default class SurveyPage extends React.Component { // eslint-disable-line
           <title>Feature Page</title>
           <meta name="description" content="Feature page of React.js Boilerplate application" />
         </Helmet>
-        <SurveyHeader>
-          <FormattedMessage {...messages.header} />
-        </SurveyHeader>
         <Survey />
       </div>
     );
