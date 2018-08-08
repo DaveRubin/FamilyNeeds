@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import Survey from './Containers/Sruvey';
-import Results from './Containers/SurveyResults';
+// import Results from './Containers/SurveyResults';
 import reducer from './reducer';
 import saga from './saga';
 
