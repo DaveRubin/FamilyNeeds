@@ -4,6 +4,11 @@ const survery = {
       description: 'Page 1',
       questions: [
         {
+          type: 'text',
+          title: 'Title',
+          text: 'this is some text that should go here...',
+        },
+        {
           id: 0,
           type: 'selection',
           text: 'What is my name?',
@@ -12,6 +17,15 @@ const survery = {
             'Ruth',
             'Dana',
             'Doron',
+          ],
+        },
+        {
+          id: 48,
+          type: 'selection',
+          text: 'Are you happy?',
+          answers: [
+            'yes',
+            'no',
           ],
         },
         {
@@ -30,6 +44,11 @@ const survery = {
     {
       description: 'Page 2',
       questions: [
+        {
+          type: 'text',
+          title: 'Title',
+          text: 'this is some text that should go here...',
+        },
         {
           id: 214,
           type: 'selection',

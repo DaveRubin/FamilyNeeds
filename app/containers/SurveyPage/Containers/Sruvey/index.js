@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import injectReducer from 'utils/injectReducer';
-import { changeStep, submitData } from './actions';
-import reducer from './reducer';
+import { changeStep, submitData } from '../../actions';
 import SurveyStep from './Containers/SurveyStep';
 import SurveyStepper from './Containers/SurveyStepper';
-import SubmittingData from './Components/SubmittingData';
 
-class SurveyPage extends React.Component {
+class Survey extends React.Component {
   constructor(props) {
     super(props);
 
@@ -40,7 +37,8 @@ class SurveyPage extends React.Component {
   isCurrentStepIsDone() {
     const { questions } = this.getCurrentStep();
     const answers = this.props.answers;
-    return questions.every((question) => answers[question.id] !== undefined);
+    return questions.every((question) => question.type === 'text' ||
+      answers[question.id] !== undefined);
   }
 
 
@@ -58,30 +56,23 @@ class SurveyPage extends React.Component {
   }
 
   render() {
-    const { sendingData } = this.props;
     return (
-      sendingData ?
-        <SubmittingData /> :
-      (
-        <div>
-          <SurveyStep step={this.getCurrentStep()} />
-          {this.renderStepper()}
-        </div>
-      )
+      <div>
+        <SurveyStep step={this.getCurrentStep()} />
+        {this.renderStepper()}
+      </div>
     );
   }
 }
 
 
-SurveyPage.propTypes = {
+Survey.propTypes = {
   steps: PropTypes.array,
   currentStep: PropTypes.number,
-  sendingData: PropTypes.bool,
   answers: PropTypes.object,
   onStepChange: PropTypes.func,
   submitData: PropTypes.func,
 };
-
 
 export function mapDispatchToProps(dispatch) {
   return {
@@ -98,18 +89,14 @@ const mapStateToProps = (state) => {
     steps: surveyStep.get('steps').toJS(),
     currentStep: surveyStep.get('currentStep'),
     sendingData: surveyStep.get('sendingData'),
+    results: surveyStep.get('results'),
     answers,
   };
 };
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'survey', reducer });
-// const withSaga = injectSaga({ key: 'home', saga });
 
 export default compose(
-  withReducer,
-  // withSaga,
   withConnect,
-)(SurveyPage);
-
+)(Survey);

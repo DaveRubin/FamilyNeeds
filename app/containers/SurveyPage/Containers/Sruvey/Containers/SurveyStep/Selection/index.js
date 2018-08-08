@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
-import { QuestionContainer, Text, AnswersContainer } from './styles';
-import Answer from './Answer';
+import { SelectionContainer, Text, AnswersContainer, Answer } from './styles';
+// import Answer from './Answer';
 import { answerSelected } from './actions';
 import reducer from './reducer';
 
 
-class Question extends React.Component {
+class Selection extends React.Component {
   constructor(props) {
     super(props);
     this.itemSelected = this.itemSelected.bind(this);
   }
+
+  itemSelectedCurry = (index) => () => this.itemSelected(index);
 
   itemSelected(selected) {
     this.props.answerSelected(this.props.id, selected);
@@ -25,30 +27,30 @@ class Question extends React.Component {
       answers.map((answer, index) =>
         (<Answer
           key={answer}
-          text={answer}
           selected={index === this.props.selectedIndex}
-          index={index}
-          onSelected={this.itemSelected}
-        />))
+          onClick={this.itemSelectedCurry(index)}
+        >
+          {answer}
+        </Answer>))
     );
   }
 
   render() {
     const { text, answers } = this.props;
     return (
-      <QuestionContainer>
+      <SelectionContainer>
         <Text>
           {text}
         </Text>
         <AnswersContainer>
           {this.renderAnswers(answers)}
         </AnswersContainer>
-      </QuestionContainer>
+      </SelectionContainer>
     );
   }
 }
 
-Question.propTypes = {
+Selection.propTypes = {
   id: PropTypes.number,
   text: PropTypes.string,
   answers: PropTypes.arrayOf(PropTypes.string),
@@ -74,4 +76,4 @@ const withReducer = injectReducer({ key: 'surveyAnswers', reducer });
 export default compose(
     withReducer,
     withConnect,
-  )(Question);
+  )(Selection);
