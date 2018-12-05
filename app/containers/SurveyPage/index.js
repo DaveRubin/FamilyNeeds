@@ -4,23 +4,27 @@
  * List all the features
  */
 import React from 'react';
+import Proptypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Helmet } from 'react-helmet';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import Survey from './Containers/Sruvey';
-// import Results from './Containers/SurveyResults';
+import Results from './Containers/SurveyResults';
 import reducer from './reducer';
 import saga from './saga';
 
 
 class SurveyPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  // Since state and props are static,
-  // there's no need to re-render this component
-  shouldComponentUpdate() {
-    return false;
+  renderMain() {
+    const { phase } = this.props;
+    switch (phase) {
+      case 'SURVEY': return <Survey {...this.props} />;
+      case 'RESULTS': return <Results />;
+      default : return null;
+    }
   }
 
   render() {
@@ -30,12 +34,17 @@ class SurveyPage extends React.Component { // eslint-disable-line react/prefer-s
           <title>Survey Page</title>
           <meta name="survey" content="needs mapping survey" />
         </Helmet>
-        <Survey {...this.props} />
+        {this.renderMain()}
+
 
       </div>
     );
   }
 }
+
+SurveyPage.propTypes = {
+  phase: Proptypes.string,
+};
 
 const mapStateToProps = (state) => {
   const surveyStep = state.get('survey');
@@ -46,6 +55,7 @@ const mapStateToProps = (state) => {
     currentStep: surveyStep.get('currentStep'),
     sendingData: surveyStep.get('sendingData'),
     results: surveyStep.get('results'),
+    phase: surveyStep.get('phase'),
     answers,
   };
 };

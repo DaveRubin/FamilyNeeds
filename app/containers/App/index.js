@@ -11,11 +11,12 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
-import SurveyPage from 'containers/SurveyPage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import AppHeader from 'shared/AppHeader';
 // import Header from 'components/Header';
 import Footer from 'components/Footer';
+import SurveyPage from '../SurveyPage/Loadable';
+import Results from '../Results';
+import NotFoundPage from '../NotFoundPage/Loadable';
 
 const AppWrapper = styled.div`
   max-width: calc(768px + 16px * 2);
@@ -39,6 +40,7 @@ export default function App() {
         </Helmet>
         <Switch>
           <Route exact path="/" component={SurveyPage} />
+          <Route exact path="/results" component={Results} />
           <Route path="" component={NotFoundPage} />
         </Switch>
         <Footer />

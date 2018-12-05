@@ -1,9 +1,9 @@
 import { fromJS } from 'immutable';
 import { Types } from './actions';
-
+import results from './__fixtures__/';
 // The initial state of the App
 const initialState = fromJS({
-  answers: {},
+  answers: results,
 });
 
 function setStepReducer(state = initialState, action) {

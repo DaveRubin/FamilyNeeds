@@ -5,6 +5,7 @@ import { Types } from './actions';
 // The initial state of the App
 const initialState = fromJS({
   ...survery,
+  phase: 'SURVEY',
   currentStep: 0,
   sendingData: false,
   results: { someField: 'AAA' },
@@ -17,7 +18,10 @@ function reducer(state = initialState, action) {
     case Types.SUBMIT_DATA:
       return state.set('sendingData', true);
     case Types.GOT_RESULTS:
-      return state.set('sendingData', false).set('results', action.results);
+      return state
+      .set('phase', 'RESULTS')
+      .set('sendingData', false)
+      .set('results', action.results);
     default:
       return state;
   }
