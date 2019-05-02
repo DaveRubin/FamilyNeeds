@@ -3,7 +3,7 @@ import styled from 'glamorous';
 export const ShowMore = styled.a({ marginRight: 10 });
 
 export const CardHeader = styled.div({
-  backgroundColor: 'red',
+  backgroundColor: '#3f51b5',
   padding: 15,
   color: 'white',
 });
@@ -12,7 +12,7 @@ export const CardBody = styled.div({
   padding: 15,
 });
 export const Card = styled.div({
-  margin: '30px 0',
+  // margin: '30px 0',
   boxShadow: '0px 5px 10px 0px rgba(0,0,0,0.1)',
 }, ({ isOpen }) => isOpen && ({
   gridColumnStart: 1,
